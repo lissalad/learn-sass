@@ -1,6 +1,17 @@
+$size: 300px;
+$rotation: 45deg;
+$opacity: 0.5;
+$red: rgb(255, 0, 0, $opacity);
+$yellow: rgb(255, 255, 0, $opacity);
+$green: rgb(0, 255, 0, $opacity);
+$cyan: rgb(0, 255, 255, $opacity);
+$blue: rgb(0, 0, 255, $opacity);
+
+$colors: $red, $yellow, $green, $cyan, $blue;
+
 .lotus {
-  width: 300px;
-  height: 300px;
+  width: $size;
+  height: $size;
   border: 1px solid;
   position: relative;
   top: 10px;
@@ -9,14 +20,32 @@
 
 .lotus > div {
   position: absolute;
-  width: 200px;
-  height: 200px;
+  width: $size * 0.666;
+  height: $size * 0.666;
   border: 1px solid;
   border-radius: 0 70% 50% 70%;
   left: 0;
   top: 70px;
   transform: rotate(45deg);
-  transform-origin: 150px 150px;
+  transform-origin: $size/2 $size/2;
   animation-duration: 6000ms;
   animation-fill-mode: forwards;
+}
+
+@for $n from 1 through 5 {
+.lotus {
+  div:nth-child(#{$n}) {
+    background-color: nth($colors, $n);
+    animation-name: bloom-#{$n};
+  }
+}
+  @keyframes bloom-#{$n} {
+    0% {
+      transform: rotate($rotation);
+    }
+    100% {
+      transform: rotate(($n - 2) * $rotation);
+    }
+  }
+
 }
